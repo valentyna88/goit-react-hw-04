@@ -5,6 +5,7 @@ const SearchBar = () => {
   return (
     <header className={css.header}>
       <form className={css.form}>
+        <GrSearch />
         <input
           className={css.field}
           type="text"
@@ -13,10 +14,6 @@ const SearchBar = () => {
           autoFocus
           placeholder="Search images and photos"
         />
-        <button className={css.btn} type="submit">
-          <GrSearch />
-          Search
-        </button>
       </form>
     </header>
   );
