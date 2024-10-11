@@ -7,6 +7,8 @@ import Loader from '../Loader/Loader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import ImageModal from '../ImageModal/ImageModal';
 
+import fetchImages from '../../unsplash-api';
+
 function App() {
   return (
     <div className={css.container}>
