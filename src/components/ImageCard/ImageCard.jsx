@@ -1,9 +1,9 @@
 import css from './ImageCard.module.css';
 
-const ImageCard = () => {
+const ImageCard = ({ src, alt }) => {
   return (
     <div className={css.card}>
-      <img src="https://via.placeholder.com/150" alt="Placeholder" />
+      <img className={css.image} src={src} alt={alt} />
     </div>
   );
 };
