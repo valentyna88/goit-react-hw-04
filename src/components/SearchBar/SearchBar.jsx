@@ -1,24 +1,24 @@
 import { GrSearch } from 'react-icons/gr';
+import css from './SearchBar.module.css';
 
 const SearchBar = () => {
   return (
-    <div>
-      <header>
-        <form>
-          <input
-            type="text"
-            name="input"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-          />
-          <button type="submit">
-            <GrSearch />
-            Search
-          </button>
-        </form>
-      </header>
-    </div>
+    <header className={css.header}>
+      <form className={css.form}>
+        <input
+          className={css.field}
+          type="text"
+          name="input"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+        />
+        <button className={css.btn} type="submit">
+          <GrSearch />
+          Search
+        </button>
+      </form>
+    </header>
   );
 };
 
