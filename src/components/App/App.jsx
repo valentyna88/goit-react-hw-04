@@ -18,7 +18,8 @@ function App() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [inputValue, setInputValue] = useState('');
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState('');
 
   const toastStyles = {
     position: 'top-right',
@@ -62,7 +63,6 @@ function App() {
     setQuery(searchQuery);
     setPage(1);
     setImages(null);
-    setInputValue('');
   };
 
   const handleInputChange = event => {
@@ -71,6 +71,15 @@ function App() {
 
   const loadMoreImages = () => {
     setPage(prevPage => prevPage + 1);
+  };
+
+  const openModal = url => {
+    setIsModalOpen(true);
+    setImageUrl(url);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -82,10 +91,14 @@ function App() {
         onInputChange={handleInputChange}
       />
       {error && <ErrorMessage message={error} />}
-      <ImageGallery images={images} />
+      <ImageGallery images={images} onImageClick={openModal} />
       {isLoading && <Loader />}
       {!isLoading && images && <LoadMoreBtn onClick={loadMoreImages} />}
-      <ImageModal />
+      <ImageModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        imageUrl={imageUrl}
+      />
     </div>
   );
 }
