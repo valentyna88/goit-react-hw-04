@@ -13,7 +13,7 @@ const fetchImages = async (query, page) => {
       client_id: API_KEY,
     },
   });
-  console.log(response.data);
+  // console.log(response.data);
 
   return response.data;
 };

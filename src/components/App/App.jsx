@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 function App() {
   const [images, setImages] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setisError] = useState(false);
+  const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   // const [modalImage, setModalImage] = useState(null);
@@ -23,7 +23,6 @@ function App() {
     const fetchHandler = async () => {
       try {
         setIsLoading(true);
-        setisError(false);
 
         const data = await fetchImages(query, page);
         const results = data.results;
@@ -34,9 +33,12 @@ function App() {
           });
           return;
         }
-        setImages(prevImages => [...prevImages, ...results]);
+        setImages(prevImages =>
+          prevImages ? [...prevImages, ...results] : results
+        );
       } catch (error) {
-        setisError(true);
+        setError(error.message);
+        toast.error(error.message, { duration: 4000 });
       } finally {
         setIsLoading(false);
       }
@@ -49,16 +51,20 @@ function App() {
   const handleSubmit = searchQuery => {
     setQuery(searchQuery);
     setPage(1);
-    setImages([]); // Очищення галереї перед новим пошуком
+    setImages(null);
+  };
+
+  const loadMoreImages = () => {
+    setPage(prevPage => prevPage + 1);
   };
 
   return (
     <div className={css.container}>
       <SearchBar onSubmit={handleSubmit} />
-      {isError && <ErrorMessage message={isError} />}
+      {error && <ErrorMessage message={error} />}
       <ImageGallery images={images} />
       {isLoading && <Loader />}
-      <LoadMoreBtn />
+      {!isLoading && images && <LoadMoreBtn onClick={loadMoreImages} />}
       <ImageModal />
     </div>
   );
