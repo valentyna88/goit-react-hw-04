@@ -72,6 +72,10 @@ function App() {
 
   const loadMoreImages = () => {
     setPage(prevPage => prevPage + 1);
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth',
+    });
   };
 
   const openModal = url => {
