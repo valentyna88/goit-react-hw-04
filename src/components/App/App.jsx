@@ -18,7 +18,7 @@ function App() {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [inputValue, setInputValue] = useState('');
-  // const [modalImage, setModalImage] = useState(null);
+  // const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const toastStyles = {
     position: 'top-right',
