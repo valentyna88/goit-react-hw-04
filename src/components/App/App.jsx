@@ -63,6 +63,7 @@ function App() {
     setQuery(searchQuery);
     setPage(1);
     setImages(null);
+    setInputValue('');
   };
 
   const handleInputChange = event => {

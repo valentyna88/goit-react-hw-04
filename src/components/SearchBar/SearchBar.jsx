@@ -1,10 +1,8 @@
 import { GrSearch } from 'react-icons/gr';
 import css from './SearchBar.module.css';
 import toast from 'react-hot-toast';
-import { useState } from 'react';
 
-const SearchBar = ({ onSubmit }) => {
-  const [inputValue, setInputValue] = useState('');
+const SearchBar = ({ onSubmit, inputValue, onInputChange }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -13,10 +11,7 @@ const SearchBar = ({ onSubmit }) => {
       return;
     }
     onSubmit(inputValue);
-  };
-
-  const onInputChange = event => {
-    setInputValue(event.target.value);
+    onInputChange({ target: { value: '' } });
   };
 
   return (
