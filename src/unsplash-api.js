@@ -4,22 +4,18 @@ const API_KEY = 'qSg347jVb1hWhhBVkTz2gPP9EKim76v11DHuIY7tt8M';
 axios.defaults.baseURL = 'https://api.unsplash.com/';
 
 const fetchImages = async (query, page) => {
-  try {
-    const response = await axios.get('/search/photos', {
-      params: {
-        query,
-        page,
-        per_page: 15,
-        orientation: 'landscape',
-        client_id: API_KEY,
-      },
-    });
+  const response = await axios.get('/search/photos', {
+    params: {
+      query,
+      page,
+      per_page: 20,
+      orientation: 'landscape',
+      client_id: API_KEY,
+    },
+  });
+  console.log(response.data);
 
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching images:', error.message);
-    throw error;
-  }
+  return response.data;
 };
 
 export default fetchImages;

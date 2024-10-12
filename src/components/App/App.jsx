@@ -9,69 +9,57 @@ import ImageModal from '../ImageModal/ImageModal';
 
 import fetchImages from '../../unsplash-api';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
 
 function App() {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [images, setImages] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setisError] = useState(false);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
-  const [modalImage, setModalImage] = useState(null);
+  // const [modalImage, setModalImage] = useState(null);
+
+  useEffect(() => {
+    const fetchHandler = async () => {
+      try {
+        setIsLoading(true);
+        setisError(false);
+
+        const data = await fetchImages(query, page);
+        const results = data.results;
+
+        if (results.length === 0) {
+          toast('There is no results with this search query', {
+            duration: 4000,
+          });
+          return;
+        }
+        setImages(prevImages => [...prevImages, ...results]);
+      } catch (error) {
+        setisError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query) {
+      fetchHandler();
+    }
+  }, [query, page]);
 
   const handleSubmit = searchQuery => {
     setQuery(searchQuery);
     setPage(1);
-    setImages([]);
-  };
-
-  const loadImages = async (searchQuery, page) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const data = await fetchImages(searchQuery, page);
-      setImages(prevImages => [...prevImages, ...data.results]);
-      // setPage(prevPage => prevPage + 1);
-    } catch (error) {
-      setError('Failed to load images.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (query) {
-      loadImages(query, 1);
-    }
-  }, [query]);
-
-  useEffect(() => {
-    if (page > 1) {
-      loadImages(query, page);
-    }
-  }, [page]);
-
-  const loadMoreImages = () => {
-    setPage(prevPage => prevPage + 1);
-  };
-
-  const openModal = image => {
-    setModalImage(image);
-  };
-
-  const closeModal = () => {
-    setModalImage(null);
+    setImages([]); // Очищення галереї перед новим пошуком
   };
 
   return (
     <div className={css.container}>
       <SearchBar onSubmit={handleSubmit} />
-      {error && <ErrorMessage message={error} />}
-      <ImageGallery images={images} onImageClick={openModal} />
-      {loading && <Loader />}
-      {images.length > 0 && !loading && (
-        <LoadMoreBtn onClick={loadMoreImages} />
-      )}
-      {modalImage && <ImageModal image={modalImage} onClose={closeModal} />}
+      {isError && <ErrorMessage message={isError} />}
+      <ImageGallery images={images} />
+      {isLoading && <Loader />}
+      <LoadMoreBtn />
+      <ImageModal />
     </div>
   );
 }
