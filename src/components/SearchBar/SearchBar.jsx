@@ -1,15 +1,8 @@
 import { GrSearch } from 'react-icons/gr';
 import css from './SearchBar.module.css';
-import { useState } from 'react';
 import toast from 'react-hot-toast';
 
-const SearchBar = ({ onSubmit }) => {
-  const [inputValue, setInputValue] = useState('');
-
-  const handleInputChange = event => {
-    setInputValue(event.target.value);
-  };
-
+const SearchBar = ({ inputValue, onInputChange, onSubmit }) => {
   const handleSubmit = event => {
     event.preventDefault();
 
@@ -18,7 +11,6 @@ const SearchBar = ({ onSubmit }) => {
       return;
     }
     onSubmit(inputValue);
-    setInputValue('');
   };
 
   return (
@@ -32,7 +24,7 @@ const SearchBar = ({ onSubmit }) => {
           autoFocus
           placeholder="Search images and photos"
           value={inputValue}
-          onChange={handleInputChange}
+          onChange={onInputChange}
         />
         <button className={css.searchButton} type="submit">
           <GrSearch />

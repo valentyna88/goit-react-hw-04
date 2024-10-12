@@ -9,7 +9,7 @@ import ImageModal from '../ImageModal/ImageModal';
 
 import fetchImages from '../../unsplash-api';
 import { useEffect, useState } from 'react';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 
 function App() {
   const [images, setImages] = useState(null);
@@ -17,7 +17,19 @@ function App() {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [inputValue, setInputValue] = useState('');
   // const [modalImage, setModalImage] = useState(null);
+
+  const toastStyles = {
+    position: 'top-right',
+    toastOptions: {
+      style: {
+        marginTop: '120px',
+        backgroundColor: '#d32f2f',
+        color: '#ffffff',
+      },
+    },
+  };
 
   useEffect(() => {
     const fetchHandler = async () => {
@@ -28,9 +40,7 @@ function App() {
         const results = data.results;
 
         if (results.length === 0) {
-          toast('There is no results with this search query', {
-            duration: 4000,
-          });
+          toast('There is no results with this search query');
           return;
         }
         setImages(prevImages =>
@@ -38,7 +48,7 @@ function App() {
         );
       } catch (error) {
         setError(error.message);
-        toast.error(error.message, { duration: 4000 });
+        toast.error(error.message);
       } finally {
         setIsLoading(false);
       }
@@ -52,6 +62,11 @@ function App() {
     setQuery(searchQuery);
     setPage(1);
     setImages(null);
+    setInputValue('');
+  };
+
+  const handleInputChange = event => {
+    setInputValue(event.target.value);
   };
 
   const loadMoreImages = () => {
@@ -60,7 +75,12 @@ function App() {
 
   return (
     <div className={css.container}>
-      <SearchBar onSubmit={handleSubmit} />
+      <Toaster {...toastStyles} />
+      <SearchBar
+        onSubmit={handleSubmit}
+        inputValue={inputValue}
+        onInputChange={handleInputChange}
+      />
       {error && <ErrorMessage message={error} />}
       <ImageGallery images={images} />
       {isLoading && <Loader />}
