@@ -1,7 +1,7 @@
 import css from './ErrorMessage.module.css';
 
-const ErrorMessage = () => {
-  return <p className={css.error}>An error occurred. Please try again.</p>;
+const ErrorMessage = ({ message }) => {
+  return <p className={css.errorMessage}>{message}</p>;
 };
 
 export default ErrorMessage;

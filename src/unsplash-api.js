@@ -9,10 +9,12 @@ const fetchImages = async (query, page) => {
       params: {
         query,
         page,
-        per_page: 10,
+        per_page: 15,
+        orientation: 'landscape',
         client_id: API_KEY,
       },
     });
+
     return response.data;
   } catch (error) {
     console.error('Error fetching images:', error.message);
