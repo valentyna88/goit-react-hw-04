@@ -76,11 +76,16 @@ function App() {
 
   const loadMoreImages = () => {
     setPage(prevPage => prevPage + 1);
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth',
-    });
   };
+
+  useEffect(() => {
+    if (page > 1) {
+      window.scrollBy({
+        top: window.innerHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [images, page]);
 
   const openModal = url => {
     setIsModalOpen(true);
