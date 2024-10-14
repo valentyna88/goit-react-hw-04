@@ -59,7 +59,6 @@ function App() {
         setIsLoading(false);
       }
     };
-
     fetchHandler();
   }, [query, page]);
 
