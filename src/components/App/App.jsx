@@ -17,6 +17,7 @@ function App() {
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [inputValue, setInputValue] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [imageUrl, setImageUrl] = useState('');
@@ -44,6 +45,9 @@ function App() {
           toast('There is no results with this search query');
           return;
         }
+
+        setTotalPages(data.total_pages);
+
         setImages(prevImages =>
           prevImages ? [...prevImages, ...results] : results
         );
@@ -98,7 +102,9 @@ function App() {
       {error && <ErrorMessage message={error} />}
       <ImageGallery images={images} onImageClick={openModal} />
       {isLoading && <Loader />}
-      {!isLoading && images && <LoadMoreBtn onClick={loadMoreImages} />}
+      {!isLoading && images && page < totalPages && (
+        <LoadMoreBtn onClick={loadMoreImages} />
+      )}
       <ImageModal
         isOpen={isModalOpen}
         onClose={closeModal}
