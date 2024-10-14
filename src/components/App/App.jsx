@@ -35,6 +35,7 @@ function App() {
 
   useEffect(() => {
     const fetchHandler = async () => {
+      if (!query) return;
       try {
         setIsLoading(true);
 
@@ -58,9 +59,8 @@ function App() {
         setIsLoading(false);
       }
     };
-    if (query) {
-      fetchHandler();
-    }
+
+    fetchHandler();
   }, [query, page]);
 
   const handleSubmit = searchQuery => {
