@@ -11,7 +11,7 @@ const SearchBar = ({ onSubmit, inputValue, onInputChange }) => {
       return;
     }
     onSubmit(inputValue);
-    onInputChange({ target: { value: '' } });
+    onInputChange('');
   };
 
   return (
@@ -25,7 +25,7 @@ const SearchBar = ({ onSubmit, inputValue, onInputChange }) => {
           autoFocus
           placeholder="Search images and photos"
           value={inputValue}
-          onChange={onInputChange}
+          onChange={event => onInputChange(event.target.value)}
         />
         <button className={css.searchButton} type="submit">
           <GrSearch />

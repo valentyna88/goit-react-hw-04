@@ -63,21 +63,6 @@ function App() {
     fetchHandler();
   }, [query, page]);
 
-  const handleSubmit = searchQuery => {
-    setQuery(searchQuery);
-    setPage(1);
-    setImages(null);
-    setInputValue('');
-  };
-
-  const handleInputChange = event => {
-    setInputValue(event.target.value);
-  };
-
-  const loadMoreImages = () => {
-    setPage(prevPage => prevPage + 1);
-  };
-
   useEffect(() => {
     if (page > 1) {
       window.scrollBy({
@@ -86,6 +71,21 @@ function App() {
       });
     }
   }, [images, page]);
+
+  const handleSubmit = searchQuery => {
+    setQuery(searchQuery);
+    setPage(1);
+    setImages(null);
+    setInputValue('');
+  };
+
+  const handleInputChange = newValue => {
+    setInputValue(newValue);
+  };
+
+  const loadMoreImages = () => {
+    setPage(prevPage => prevPage + 1);
+  };
 
   const openModal = url => {
     setIsModalOpen(true);
